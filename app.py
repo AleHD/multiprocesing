@@ -25,8 +25,8 @@ data = {
 }
 
 def primesJl():
-     subprocess.run(["julia", "temp.jl", f"{tamaño_criba}"])
-     return os.popen("ls -l").read()
+     subprocess.run([])
+     return os.popen(f"julia temp.jl 0 {tamaño_criba}").read()
      
 
 def printPrimes(primes, i):
@@ -48,10 +48,11 @@ def calculaPrimos():
     while time.time() < t_end:
         url = data[list_users[index]]["host"]
         response = requests.post(f"{url}/criba", json={
-               "i": i
-               "mac": gma(),
-          }) #como pasamos data?
-        print("haciendo calculo")
+              "i": i
+              "pprimes": out,
+          })
+        i = i + 1
+        printPrimes(response, i*tamaño_criba)
         index =(index + 1 )%2
      
      # llame julia
@@ -64,8 +65,7 @@ def calculaPrimos():
 def calculaPorcionCriba(i, pprimes):
      i = request.json["i"]
      pprimes = request.json["pprimes"]
-     subprocess.run(["julia", "temp.jl", f"{tamaño_criba}"])
-     primes = os.popen(f"julia temp.jl {i} {1000} {pprimes}").read()
+     primes = os.popen(f"julia temp.jl {i} {tamaño_criba} {pprimes}").read()
      return primes
 
 
